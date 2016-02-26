@@ -18,7 +18,7 @@ Abaixo uma breve descrição dos módulos do projeto:
   Saída: Imagem segmentada
 
 
-##Módulo 5 (similaridade entre formas)
+##Módulo 4 (similaridade entre formas)
 
   Entrada: Duas imagens digitais segmentadas
 
