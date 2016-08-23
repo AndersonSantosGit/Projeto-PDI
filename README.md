@@ -1,3 +1,6 @@
+[![Python version](https://img.shields.io/badge/python-v2.7-orange.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-GPL-blue.svg)](http://www.gnu.org/licenses/gpl-3.0.en.html)
+
 # Projeto PDI
 
 Projeto da disciplina Processamento Digital de Imagens (PDI) durante o semestre 2015.2.
