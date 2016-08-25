@@ -42,23 +42,38 @@ conceito_2 = 2
 n_1        = 1
 n_2        = 2
 
-img1 = cv2.imread('Imagens Segmentadas\\'+ str(conceito_1) + '_' + str(n_1) +'_.jpg',0)
-img2 = cv2.imread('Imagens Segmentadas\\'+ str(conceito_2) + '_' + str(n_2) +'_.jpg',0)
+img1 = cv2.imread('Imagens Segmentadas/'+ str(conceito_1) + '_' + str(n_1) +'_.jpg',0)
+img2 = cv2.imread('Imagens Segmentadas/'+ str(conceito_2) + '_' + str(n_2) +'_.jpg',0)
 
-#img1 = mpimg.imread('Imagens Segmentadas\\'+ str(conceito_1) + '_' + str(n_1) +'_.jpg',0) 
-#img2 = mpimg.imread('Imagens Segmentadas\\'+ str(conceito_2) + '_' + str(n_2) +'_.jpg',0)
+#img1 = mpimg.imread('Imagens Segmentadas/'+ str(conceito_1) + '_' + str(n_1) +'_.jpg',0) 
+#img2 = mpimg.imread('Imagens Segmentadas/'+ str(conceito_2) + '_' + str(n_2) +'_.jpg',0)
 
 
-sift = cv2.SIFT()
+orb = cv2.ORB_create()
 #kp = sift.detect(gray,None)
-kp1, descritores1 = sift.detectAndCompute(img1,None)
-kp2, descritores2 = sift.detectAndCompute(img2,None)
+kp1, descritores1 = orb.detectAndCompute(img1, None)
+kp2, descritores2 = orb.detectAndCompute(img2, None)
 
-imgKp1=cv2.drawKeypoints(img1,kp1)
+# create BFMatcher object
+bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+
+# Match descriptors.
+matches = bf.match(descritores1,descritores2)
+
+# Sort them in the order of their distance.
+matches = sorted(matches, key = lambda x:x.distance)
+
+# Draw first 10 matches.
+img3 = cv2.drawMatches(img1,kp1,img2,kp2,matches ,None, flags=2)
+plt.imshow(img3)
+plt.show()
+
+'''
+imgKp1 = cv2.drawKeypoints(img1,kp1)
 plt.subplot(121),plt.imshow(imgKp1, cmap = 'gray')
 plt.title('Pontos SIFT IM1'), plt.xticks([]), plt.yticks([])
 
-imgKp2=cv2.drawKeypoints(img2,kp2)
+imgKp2 = draw_keypoints(img2,kp2)
 plt.subplot(122),plt.imshow(imgKp2, cmap = 'gray')
 plt.title('Pontos SIFT IM2'), plt.xticks([]), plt.yticks([])
 plt.show()
@@ -76,7 +91,7 @@ for l in range(len(kp2)):
     dist_2 += euclidean(M_2,kp2[l].pt) 
     
     
-'''
+
 flann_params = dict(algorithm=1, trees=4)
 flann = cv2.flann_Index(descritores1, flann_params)
 idx, dist = flann.knnSearch(descritores2, 1, params={})
