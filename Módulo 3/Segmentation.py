@@ -20,7 +20,7 @@ from sklearn.naive_bayes import GaussianNB
 from scipy.stats.stats import pearsonr
 
 conceito = 1
-n        = 1
+n        = 2
 
 #img  = mpimg.imread('Imagens/' + str(conceito) + '_' + str(n) +'.jpg')
 img  = mpimg.imread('Imagens/1_1.jpg')
@@ -29,7 +29,10 @@ plt.show()
 
 #SLIC
 #segments_slic = slic(img, n_segments=200.0, compactness=10.0)
-segments_slic = slic(img, n_segments=200, compactness=10.0, sigma=3.0)
+segments_slic = slic(img, n_segments=1000, compactness=10.0, sigma=3.0)
+
+plt.imshow(mark_boundaries(img, segments_slic))
+plt.show()
 
 FEATURES = np.zeros([len(np.unique(segments_slic)),4])
 IMAGE_SEG = np.array(img)
