@@ -37,3 +37,27 @@ Abaixo uma breve descrição dos módulos do projeto:
   Entrada: Duas imagens digitais segmentadas
 
   Saída: Índice de similaridade (0 a 100) entre as formas dos objetos
+
+  O exemplo abaixo ilustra uma síntese dos passos para obtenção da similaridade entre duas imagens:
+
+  - Imagem segmentadas
+  ![similaridade_gato_aviao](https://cloud.githubusercontent.com/assets/6972758/18068307/12b1994e-6e17-11e6-835d-73faedc84c01.png)
+  
+ - Match dos descritores entre as imagens
+  ![similaridade_gato_aviao_sift](https://cloud.githubusercontent.com/assets/6972758/18068305/12aec50c-6e17-11e6-9f36-e0f34187f00f.png)
+
+<p align="center">
+  <strong>SIMILARIDADE: 2.16%</strong> 
+</p> 
+  
+  - Imagem segmentadas
+  ![similaridade_aviao_aviao](https://cloud.githubusercontent.com/assets/6972758/18068304/12aba944-6e17-11e6-826a-b086d4a01f5f.png)
+
+  - Match dos descritores entre as imagens
+  ![similaridade_aviao_aviao_sift](https://cloud.githubusercontent.com/assets/6972758/18068306/12b16f78-6e17-11e6-9a3d-6c055bb16bb0.png)
+
+<p align="center">
+  <strong>SIMILARIDADE: 84.3%</strong> 
+</p>
+
+
