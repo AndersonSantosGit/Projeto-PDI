@@ -9,16 +9,15 @@ from scipy.stats.mstats_basic import kurtosis
 from skimage.segmentation import slic, mark_boundaries
 from sklearn.naive_bayes import GaussianNB
 
-conceito = 1
+conceito = 7
 n = 2
 
-# img = mpimg.imread('imagens/' + str(conceito) + '_' + str(n) + '.jpg')
-img = mpimg.imread('imagens/1_1.jpg')
+img = mpimg.imread('imagens/' + str(conceito) + '_' + str(n) + '.jpg')
 plt.imshow(img)
 plt.show()
 
 # SLIC
-segments_slic = slic(img, n_segments=1000, compactness=10.0, sigma=3.0)
+segments_slic = slic(img, n_segments=200, compactness=10.0, sigma=3.0)
 plt.imshow(mark_boundaries(img, segments_slic))
 plt.show()
 
@@ -41,12 +40,12 @@ for j in range(len(np.unique(segments_slic))):
     # plt.title('SLIC'), plt.xticks([]), plt.yticks([])
     # plt.show()
 
-    mean = np.mean(region_r) + np.mean(region_g) + np.mean(region_b)
-    variance = np.var(region_r) + np.var(region_g) + np.var(region_b)
-    skewness = SCI.skew(region_r) + SCI.skew(region_g) + SCI.skew(region_b)
-    kurtosis = kurtosis(region_r) + kurtosis(region_g) + kurtosis(region_b)
-    entropy = SCI.entropy(region_r) + SCI.entropy(region_g) + SCI.entropy(region_b)
-    img_features = [mean, variance, skewness, kurtosis]
+    f_mean = np.mean(region_r) + np.mean(region_g) + np.mean(region_b)
+    f_variance = np.var(region_r) + np.var(region_g) + np.var(region_b)
+    f_skewness = SCI.skew(region_r) + SCI.skew(region_g) + SCI.skew(region_b)
+    f_kurtosis = kurtosis(region_r) + kurtosis(region_g) + kurtosis(region_b)
+    f_entropy = SCI.entropy(region_r) + SCI.entropy(region_g) + SCI.entropy(region_b)
+    img_features = [f_mean, f_variance, f_skewness, f_kurtosis]
     features = np.load('space_feature/features_' + str(conceito) + '.npy')
     dist_euclidian = 0
     target = np.ones([np.size(features, 0), 1])
@@ -87,13 +86,13 @@ a[:, :, 1] = np.multiply(img[:, :, 1], np.double(image_seg[:, :, 1])/255.0)
 a[:, :, 2] = np.multiply(img[:, :, 2], np.double(image_seg[:, :, 2])/255.0)
 
 plt.subplot(131), plt.imshow(mark_boundaries(img, segments_slic))
-plt.title('Image'), plt.xticks([]), plt.yticks([])
+plt.title(''), plt.xticks([]), plt.yticks([])
 
 plt.subplot(132), plt.imshow(image_seg, cmap='binary')
-plt.title('SEGMENTACaO'), plt.xticks([]), plt.yticks([])
+plt.title(''), plt.xticks([]), plt.yticks([])
 
 plt.subplot(133), plt.imshow(a, cmap='gray')
-plt.title('OUTPUT'), plt.xticks([]), plt.yticks([])
+plt.title(''), plt.xticks([]), plt.yticks([])
 
 plt.show()
 
