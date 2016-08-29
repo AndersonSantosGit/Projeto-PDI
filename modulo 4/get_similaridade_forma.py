@@ -86,9 +86,9 @@ dist = (distance.euclidean(f_1, f_2))*100
 print np.abs((person[0]*100)-dist)
 
 plt.subplot(121), plt.imshow(img_1, cmap='gray')
-plt.title('Image 1'), plt.xticks([]), plt.yticks([])
+plt.title(''), plt.xticks([]), plt.yticks([])
 
 plt.subplot(122), plt.imshow(img_2, cmap='gray')
-plt.title('Image 2'), plt.xticks([]), plt.yticks([])
+plt.title(''), plt.xticks([]), plt.yticks([])
 
 plt.show()
