@@ -12,7 +12,7 @@ Abaixo uma breve descrição dos módulos do projeto:
   
   Saída: Posição e descrição das características SIFT da imagem
 
-  O exemplo abaixo ilustra os descritores plotados nas imagens:
+  O exemplo abaixo ilustra os descritores plotados em uma determinada imagem:
  ![cow_orb](https://cloud.githubusercontent.com/assets/6972758/18066667/ac464440-6e0f-11e6-83ac-bbf5fac73151.png)
 
 ## Módulo 3 (segmentação)
