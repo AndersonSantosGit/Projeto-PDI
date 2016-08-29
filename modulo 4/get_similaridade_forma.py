@@ -1,197 +1,94 @@
-'''
-Created on 22 de nov de 2015
-
-@author: Anderson Santos
-@email: anderson.bcc.uag@gmail.com
-Universidade Federal Rural de Pernambuco - UFRPE/UAG
-
-'''
-
+import cv2
+from cv2 import mean
+import numpy as np
+from numpy import str
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
-import numpy as np
-import cv2
-
 from scipy.spatial import distance
-from skimage.measure import perimeter
-from skimage.color import rgb2gray
-from skimage.segmentation import clear_border
-from cv2 import mean
-from scipy.stats.stats import pearsonr
-from numpy import str
 from scipy.spatial.distance import euclidean
+from skimage.color import rgb2gray
+from skimage.measure import perimeter
+from scipy.stats.stats import pearsonr
+from skimage.segmentation import clear_border
 
 
-def getMedoid(descritor):
-    matrizCorrelacao = np.corrcoef(descritor)
-    
-    soma = 0;
-    indice = 0;
-    
-    for i in range(len(matrizCorrelacao)):
-        if (sum(matrizCorrelacao[i]) > soma):
-            soma = sum(matrizCorrelacao[i])
+def get_medoid(descritor):
+    soma = 0
+    indice = 0
+    matriz_correlacao = np.corrcoef(descritor)
+    for i in range(len(matriz_correlacao)):
+        if (sum(matriz_correlacao[i]) > soma):
+            soma = sum(matriz_correlacao[i])
             indice = i
 
     return indice, descritor[indice]
 
-
-conceito_1 = 2
+conceito_1 = 1
 conceito_2 = 2
 
-n_1        = 1
-n_2        = 2
+n_1 = 1
+n_2 = 2
 
-img1 = cv2.imread('Imagens Segmentadas/'+ str(conceito_1) + '_' + str(n_1) +'_.jpg',0)
-img2 = cv2.imread('Imagens Segmentadas/'+ str(conceito_2) + '_' + str(n_2) +'_.jpg',0)
-
-#img1 = mpimg.imread('Imagens Segmentadas/'+ str(conceito_1) + '_' + str(n_1) +'_.jpg',0) 
-#img2 = mpimg.imread('Imagens Segmentadas/'+ str(conceito_2) + '_' + str(n_2) +'_.jpg',0)
-
+img_1 = cv2.imread('imagens_segmentadas/' + str(conceito_1) + '_' + str(n_1) + '_.jpg', 0)
+img_2 = cv2.imread('imagens_segmentadas/' + str(conceito_2) + '_' + str(n_2) + '_.jpg', 0)
+# img_1 = mpimg.imread('imagens_segmentadas/' + str(conceito_1) + '_' + str(n_1) + '_.jpg', 0)
+# img_2 = mpimg.imread('imagens_segmentadas/' + str(conceito_2) + '_' + str(n_2) + '_.jpg', 0)
 
 orb = cv2.ORB_create()
-#kp = sift.detect(gray,None)
-kp1, descritores1 = orb.detectAndCompute(img1, None)
-kp2, descritores2 = orb.detectAndCompute(img2, None)
-
+kp_1, descritores_1 = orb.detectAndCompute(img_1, None)
+kp_2, descritores_2 = orb.detectAndCompute(img_2, None)
 # create BFMatcher object
 bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
-
 # Match descriptors.
-matches = bf.match(descritores1,descritores2)
-
+matches = bf.match(descritores_1, descritores_2)
 # Sort them in the order of their distance.
-matches = sorted(matches, key = lambda x:x.distance)
-
-# Draw first 10 matches.
-img3 = cv2.drawMatches(img1,kp1,img2,kp2,matches ,None, flags=2)
-plt.imshow(img3)
+matches = sorted(matches, key=lambda x: x.distance)
+img_3 = cv2.drawMatches(img_1, kp_1, img_2, kp_2, matches, None, flags=2)
+plt.imshow(img_3)
 plt.show()
 
-'''
-imgKp1 = cv2.drawKeypoints(img1,kp1)
-plt.subplot(121),plt.imshow(imgKp1, cmap = 'gray')
-plt.title('Pontos SIFT IM1'), plt.xticks([]), plt.yticks([])
-
-imgKp2 = draw_keypoints(img2,kp2)
-plt.subplot(122),plt.imshow(imgKp2, cmap = 'gray')
-plt.title('Pontos SIFT IM2'), plt.xticks([]), plt.yticks([])
-plt.show()
-
-[IDX_1,D1] = getMedoid(descritores1)
-[IDX_2,D2] = getMedoid(descritores2)
+[idx_1, d_1] = get_medoid(descritores_1)
+[idx_2, d_2] = get_medoid(descritores_2)
 
 dist_1 = 0
 dist_2 = 0
-M_1 = kp1[IDX_1].pt
-M_2 = kp2[IDX_2].pt
-for l in range(len(kp1)):
-    dist_1 += euclidean(M_1,kp1[l].pt) 
-for l in range(len(kp2)):
-    dist_2 += euclidean(M_2,kp2[l].pt) 
-    
-    
+m_1 = kp_1[idx_1].pt
+m_2 = kp_2[idx_2].pt
+for l in range(len(kp_1)):
+    dist_1 += euclidean(m_1, kp_1[l].pt)
+for l in range(len(kp_2)):
+    dist_2 += euclidean(m_2, kp_2[l].pt)
 
-flann_params = dict(algorithm=1, trees=4)
-flann = cv2.flann_Index(descritores1, flann_params)
-idx, dist = flann.knnSearch(descritores2, 1, params={})
-del flann
+# EXTRACAO DE CARACTERISTICAS
+f_1 = [0, 0, 0]
+f_2 = [0, 0, 0]
 
-print np.sum(dist)
-if (np.sum(dist)==0):
-    print 100
-else:
-    print (np.sum(dist)/np.max(dist))/100.0
+img_1 = np.divide(img_1, 255.0)
+img_2 = np.divide(img_2, 255.0)
 
-plt.show()
-'''
+prop1 = img_1.shape[0]*img_1.shape[1]
+prop2 = img_2.shape[0]*img_2.shape[1]
 
-'''
-ret1,thresh1 = cv2.threshold(img1,0,255,0)
-ret2,thresh2 = cv2.threshold(img2,0,255,0)
+# AREAS
+f_1[0] = np.sum(img_1)/prop1
+f_2[0] = np.sum(img_2)/prop2
 
-contours1,hierarchy1 = cv2.findContours(thresh1, 1, 2)
-contours2,hierarchy2 = cv2.findContours(thresh2, 1, 2)
+# PERIMETROS
+f_1[1] = perimeter(img_1)/prop1
+f_2[1] = perimeter(img_2)/prop2
 
-cnt1 = contours1[1]
-cnt2 = contours2[0]
+f_1[2] = dist_1/prop1
+f_2[2] = dist_2/prop2
 
-M1 = cv2.moments(cnt1)
-M2 = cv2.moments(cnt2)
+person = pearsonr(f_1, f_2)
+dist = (distance.euclidean(f_1, f_2))*100
 
-print M1
-print M2
+print np.abs((person[0]*100)-dist)
 
-cx1 = int(M1['m10']/M1['m00'])
-cy1 = int(M1['m01']/M1['m00'])
-
-
-cx2 = int(M2['m10']/M2['m00'])
-cy2 = int(M2['m01']/M2['m00'])
-
-area1      = cv2.contourArea(cnt1)
-area2      = cv2.contourArea(cnt2)
-
-perimetro1 = cv2.arcLength(cnt1,True)
-perimetro2 = cv2.arcLength(cnt2,True)
-
-epsilon1 = 0.1*cv2.arcLength(cnt1,True)
-epsilon2 = 0.1*cv2.arcLength(cnt2,True)
-
-approx1 = cv2.approxPolyDP(cnt1,epsilon1,True)
-approx2 = cv2.approxPolyDP(cnt2,epsilon2,True)
-
-hull1 = cv2.convexHull(cnt1)
-hull2 = cv2.convexHull(cnt2)
-
-k1 = cv2.isContourConvex(cnt1)
-k2 = cv2.isContourConvex(cnt2)
-'''
-
-'''
-                        # EXTRACAO DE CARACTERISTICAS
-
-'''
-
-F_1 = [0,0,0]
-F_2 = [0,0,0]
- 
-img1 = np.divide(img1,255.0)
-img2 = np.divide(img2,255.0)
-
-prop1 = img1.shape[0]*img1.shape[1]
-prop2 = img2.shape[0]*img2.shape[1]
-
-#AREAS
-F_1[0] = np.sum(img1)/prop1
-F_2[0] = np.sum(img2)/prop2
-
-#PERIMETROS
-F_1[1] = perimeter(img1)/prop1
-F_2[1] = perimeter(img2)/prop2
-
-F_1[2] = dist_1/prop1
-F_2[2] = dist_2/prop2
-
-print F_1
-print F_2
-
-P = pearsonr(F_1,F_2)
-#print P
-#print (F_1[0]/F_1[1])
-#print (F_2[0]/F_2[1])
-d = (distance.euclidean(F_1,F_2))*100
-#print d
-
-print np.abs((P[0]*100)-d)
-
-#P = pearsonr(d1,d2)
-#print P
-
-plt.subplot(121),plt.imshow(img1,cmap='gray')
+plt.subplot(121), plt.imshow(img_1, cmap='gray')
 plt.title('Image 1'), plt.xticks([]), plt.yticks([])
 
-plt.subplot(122),plt.imshow(img2,cmap='gray')
+plt.subplot(122), plt.imshow(img_2, cmap='gray')
 plt.title('Image 2'), plt.xticks([]), plt.yticks([])
 
 plt.show()

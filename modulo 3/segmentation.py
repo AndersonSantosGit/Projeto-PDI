@@ -57,10 +57,10 @@ for j in range(len(np.unique(segments_slic))):
         # amostra = FEATURES[m, :]
         amostra = FEATURES[m, 0:4]
         # DIST_EUCLIDIAN += distance.euclidean(imgFeatures, amostra)
-        P = pearsonr(imgFeatures, amostra)
-        # print P
-        if (P[1] < 0.05):
-            PEARSON.append(P[0])
+        person = pearsonr(imgFeatures, amostra)
+        # print person
+        if (person[1] < 0.05):
+            PEARSON.append(person[0])
         # else:
         #    PEARSON.append(0)
     # print np.mean(PEARSON)
