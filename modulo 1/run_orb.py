@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 img = cv2.imread('horse.jpg', 0)
 orb = cv2.ORB_create()
-kp, descriptors = orb.detectAndCompute(img, None)
+kp, descriptors = orb.detectAndCompute(img,None)
 img_keypoints = cv2.drawKeypoints(img, kp, None, flags=2)
 plt.imshow(img_keypoints)
 plt.show()

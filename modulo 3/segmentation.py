@@ -98,12 +98,13 @@ plt.subplot(133), plt.imshow(a, cmap='gray')
 plt.title('OUTPUT'), plt.xticks([]), plt.yticks([])
 
 plt.show()
-'''
-    EUCLIDIAN DISTANCE
+
+"""
+EUCLIDIAN DISTANCE
 for i in range(10):
     FEATURES = np.load('SpaceFeature/FEATURES_' + str(i) + '.npy')
     DIST_EUCLIDIAN = 0
-    for j  in range(size(FEATURES,1)):
-        amostra = FEATURES[j,:]
-        dst = distance.euclidean(imgFeatures,amostra)
-'''
+    for j in range(size(FEATURES, 1)):
+        amostra = FEATURES[j, :]
+        dst = distance.euclidean(imgFeatures, amostra)
+"""
