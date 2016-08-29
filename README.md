@@ -21,6 +21,16 @@ Abaixo uma breve descrição dos módulos do projeto:
   
   Saída: Imagem segmentada
 
+  O exemplo abaixo ilustra os descritores plotados em uma determinada imagem:
+  - Imagem de entrada
+  ![house](https://cloud.githubusercontent.com/assets/6972758/18067553/a5788f70-6e13-11e6-9bbd-1c529a5f1966.png)
+  - Imagem com _superpixels_ ([SLIC](http://ivrl.epfl.ch/research/superpixels))
+  ![house_slic](https://cloud.githubusercontent.com/assets/6972758/18067554/a57d5a78-6e13-11e6-9eb6-19e76b2710d4.png)
+  - Imagem segmentada
+  ![house_segmentation](https://cloud.githubusercontent.com/assets/6972758/18067778/b76fe254-6e14-11e6-92f8-b637c612127f.png)
+  - Síntese
+  ![house_three](https://cloud.githubusercontent.com/assets/6972758/18067555/a57f9e3c-6e13-11e6-8872-2ad2470245fb.png)
+
 
 ##Módulo 4 (similaridade entre formas)
 
