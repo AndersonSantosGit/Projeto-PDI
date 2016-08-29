@@ -72,7 +72,7 @@ for j in range(len(np.unique(segments_slic))):
     # if DIST_EUCLIDIAN >= 51000 or DIST_EUCLIDIAN <= 40000:
     # if y_pred == 1:
     # if DIST_EUCLIDIAN <= 36000:
-    print np.mean(np.abs(PEARSON))
+    # print np.mean(np.abs(PEARSON))
     if np.mean(np.abs(PEARSON)) > 0.99:
         IMAGE_SEG[indices, 0] = 255
         IMAGE_SEG[indices, 1] = 255
